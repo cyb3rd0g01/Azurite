@@ -21,6 +21,8 @@ FROM node:22.23.4-alpine3.23
 
 ENV NODE_ENV=production
 
+RUN apk upgrade --no-cache zlib && mkdir -p /data && chown node:node /data
+
 WORKDIR /opt/azurite
 
 # Default Workspace Volume
@@ -42,5 +44,7 @@ EXPOSE 10000
 EXPOSE 10001
 # Table Storage Port
 EXPOSE 10002
+
+USER node
 
 CMD ["azurite", "-l", "/data", "--blobHost", "0.0.0.0", "--queueHost", "0.0.0.0", "--tableHost", "0.0.0.0"]
